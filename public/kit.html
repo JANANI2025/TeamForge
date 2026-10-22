@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" ng-app="kitApp">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resource Kit - TeamForge</title>
+<link rel="stylesheet" href="css/style.css">
+<style>[ng-cloak]{display:none!important}.item{display:grid;grid-template-columns:28px 1fr 90px 90px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}.item input[type=number]{width:70px}</style>
+</head>
+<body>
+<main ng-controller="KitCtrl as vm" ng-cloak>
+  <h1>Resource kit</h1>
+  <p class="lead">Choose extras for your team from any category, press <b>Submit</b>, and your cart shows each item with its price. (AngularJS: <code>ng-repeat</code>, <code>ng-model</code>, filters, <code>$http</code>.)</p>
+
+  <div class="card" ng-show="vm.hint">{{vm.hint}}</div>
+  <div class="grid two">
+    <section class="card">
+      <h2 style="margin-top:0">Items</h2>
+      <p>
+        <label for="cat">Category</label>
+        <select id="cat" ng-model="vm.category" ng-options="c for c in vm.categories" style="max-width:240px"><option value="">All categories</option></select>
+        <input type="text" ng-model="vm.search" placeholder="Search items" style="max-width:240px;margin-top:8px">
+      </p>
+      <div class="item" ng-repeat="it in vm.items | filter:{category: vm.category} | filter:vm.search | orderBy:'name'">
+        <input type="checkbox" ng-model="it.selected" ng-change="vm.touch(it)" id="{{it.id}}" aria-label="Select {{it.name}}">
+        <label for="{{it.id}}" style="margin:0;font-weight:400">{{it.name}} <span class="badge">{{it.category}}</span> <span class="badge warn" style="background:#fef3c7;color:#92400e" ng-if="vm.isRec(it)">Recommended for your team</span></label>
+        <span>{{ it.price ? (it.price | currency:'₹':0) : 'Free' }}</span>
+        <input type="number" min="1" max="10" ng-model="it.qty" ng-disabled="!it.selected" aria-label="Quantity">
+      </div>
+      <p ng-if="!(vm.items | filter:{category: vm.category} | filter:vm.search).length" class="muted">No items match.</p>
+      <p><button class="btn" ng-click="vm.submit()" ng-disabled="!vm.selected().length">Submit ({{vm.selected().length}} selected)</button>
+         <button class="btn ghost" ng-click="vm.clear()">Clear</button></p>
+    </section>
+
+    <section class="card" ng-show="vm.submitted">
+      <h2 style="margin-top:0">Your cart</h2>
+      <table>
+        <thead><tr><th>Item</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr></thead>
+        <tbody>
+          <tr ng-repeat="it in vm.cart"><td>{{it.name}}</td><td>{{it.qty}}</td><td>{{it.price | currency:'₹':0}}</td><td>{{it.price * it.qty | currency:'₹':0}}</td></tr>
+        </tbody>
+        <tfoot><tr><th colspan="3">Total</th><th>{{vm.total() | currency:'₹':0}}</th></tr></tfoot>
+      </table>
+      <div ng-if="vm.total() > 0" style="margin-top:14px">
+        <label for="acc">Wallet account number</label>
+        <input type="text" id="acc" ng-model="vm.account" placeholder="TF12345678" style="max-width:260px">
+        <p><button class="btn warn" ng-click="vm.pay()" ng-disabled="!vm.account || vm.paying">Pay {{vm.total() | currency:'₹':0}} from wallet</button></p>
+      </div>
+      <p ng-if="vm.total() === 0" class="badge good">Everything in your cart is free - nothing to pay.</p>
+      <p ng-class="vm.msgOk ? 'badge good' : 'err'" ng-show="vm.msg">{{vm.msg}}</p>
+    </section>
+  </div>
+</main>
+<script src="vendor/jquery.min.js"></script>
+<script src="vendor/angular.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/popup.js"></script>
+<script src="js/kit.js"></script>
+</body>
+</html>

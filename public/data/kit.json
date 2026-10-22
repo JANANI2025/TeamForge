@@ -1,0 +1,69 @@
+[
+ {
+  "id": "c1",
+  "name": "Cloud credits $50",
+  "category": "Cloud",
+  "price": 0,
+  "note": "Sponsor funded",
+  "topic": "ml"
+ },
+ {
+  "id": "c2",
+  "name": "Extra GPU hours (10h)",
+  "category": "Cloud",
+  "price": 150,
+  "topic": "ml"
+ },
+ {
+  "id": "h1",
+  "name": "Arduino starter kit",
+  "category": "Hardware",
+  "price": 450,
+  "topic": "hw"
+ },
+ {
+  "id": "h2",
+  "name": "Raspberry Pi Zero kit",
+  "category": "Hardware",
+  "price": 900,
+  "topic": "hw"
+ },
+ {
+  "id": "h3",
+  "name": "Sensor bundle (10 pcs)",
+  "category": "Hardware",
+  "price": 300,
+  "topic": "hw"
+ },
+ {
+  "id": "s1",
+  "name": "Hackathon T-shirt",
+  "category": "Swag",
+  "price": 250
+ },
+ {
+  "id": "s2",
+  "name": "Sticker pack",
+  "category": "Swag",
+  "price": 40
+ },
+ {
+  "id": "f1",
+  "name": "Dinner box (Sat)",
+  "category": "Food",
+  "price": 120
+ },
+ {
+  "id": "f2",
+  "name": "Midnight snack box",
+  "category": "Food",
+  "price": 80
+ },
+ {
+  "id": "m1",
+  "name": "1:1 mentor session (30 min)",
+  "category": "Mentoring",
+  "price": 100,
+  "topic": "mentor"
+ }
+]

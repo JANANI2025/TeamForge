@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Library - TeamForge</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+  <h1>Hackathon library</h1>
+  <p class="lead">Reading list kept in the MongoDB <code>books</code> collection. When you are logged in, books for the skills <b>your team is missing</b> are highlighted.</p>
+  <div class="card" id="rec" style="display:none"></div>
+  <table id="books"><thead><tr><th>Title</th><th>Skill</th><th>Authors</th><th>Publication</th><th>Year</th><th>ISBN</th><th>Price</th></tr></thead><tbody><tr><td colspan="7" class="muted">Loading...</td></tr></tbody></table>
+  <p class="muted">Admin: run <code>mongosh teamforge mongo/books.mongosh.js</code> to insert, update and delete books, then refresh.</p>
+</main>
+<script src="vendor/jquery.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/popup.js"></script>
+<script>
+$(function () {
+  var LABEL = { fe: 'Frontend', be: 'Backend', ml: 'Data / AI', ux: 'Design / UX', hw: 'Hardware / IoT', pm: 'Pitch / Domain' };
+  var e = function (t) { return $('<i>').text(t).html(); };
+  function draw(rows, gaps) {
+    rows.sort(function (a, b) { return (gaps.indexOf(b.topic) > -1) - (gaps.indexOf(a.topic) > -1) || a.year - b.year; });
+    $('#books tbody').html(rows.length ? rows.map(function (b) {
+      var rec = gaps.indexOf(b.topic) > -1;
+      return '<tr' + (rec ? ' style="background:#fffbeb"' : '') + '><td>' + e(b.title) + (rec ? ' <span class="badge warn" style="background:#fef3c7;color:#92400e">Recommended</span>' : '') + '</td><td>' + (LABEL[b.topic] || '-') + '</td><td>' + b.authors.map(e).join(', ') + '</td><td>' + e(b.publication) + '</td><td>' + b.year + '</td><td>' + e(b.isbn) + '</td><td>&#8377;' + b.price + '</td></tr>';
+    }).join('') : '<tr><td colspan="7">No books.</td></tr>');
+  }
+  TF.api('/api/books').then(function (rows) {
+    if (!TF.session()) { $('#rec').show().html('Log in to see books for your team\'s skill gaps.'); return draw(rows, []); }
+    TF.api('/api/teams/mine').then(function (t) {
+      var gaps = t.gapKeys || [];
+      $('#rec').show().html(!t.team ? 'Teams are not built yet, so there are no gaps to recommend for.' : gaps.length ? '<b>' + e(t.name) + '</b> has no one strong in <b>' + gaps.map(function (g) { return LABEL[g]; }).join(', ') + '</b>. Those books are listed first.' : '<b>' + e(t.name) + '</b> covers all six skills. Read anything you like!');
+      draw(rows, gaps);
+    });
+  });
+});
+</script>
+</body>
+</html>

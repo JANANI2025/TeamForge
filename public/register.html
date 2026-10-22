@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Register - TeamForge</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+  <h1>Hackathon <mark>registration</mark></h1>
+  <p class="lead">One form, four steps: <strong>your details</strong>, <strong>your skills</strong> (quiz and bio help fill them in), <strong>team preferences</strong>, and a <strong>password</strong> so you can log in later to see your team. <small>Fee: &#8377;200<sup>*</sup>, paid from your wallet. Already registered? <a href="#" id="loginLink">Log in</a>.</small></p>
+
+  <!-- Component 1 + 5: HTML5 form (all common input types + HTML5 types) validated with jQuery -->
+  <form id="regForm" novalidate>
+    <fieldset>
+      <legend>1. About you</legend>
+      <div class="row">
+        <div><label for="name">Full name</label><input type="text" id="name" name="name" placeholder="e.g. Meena Iyer" autocomplete="name"><div class="err"></div></div>
+        <div><label for="email">Email</label><input type="email" id="email" name="email" placeholder="you@college.edu" autocomplete="email"><div class="err"></div></div>
+        <div><label for="phone">Mobile (10 digits)</label><input type="tel" id="phone" name="phone" placeholder="9876543210" maxlength="10" inputmode="numeric"><div class="err"></div></div>
+        <div><label for="dob">Date of birth</label><input type="date" id="dob" name="dob" max="2010-12-31"><div class="err"></div></div>
+      </div>
+      <div class="row">
+        <div><label for="college">College</label>
+          <input type="text" id="college" name="college" list="colleges" placeholder="Start typing...">
+          <datalist id="colleges"><option value="PSG College of Technology"><option value="Anna University"><option value="VIT Vellore"><option value="SRM Institute"><option value="NIT Tiruchirappalli"><option value="Amrita Vishwa Vidyapeetham"></datalist>
+          <div class="err"></div></div>
+        <div><label for="year">Year of study</label>
+          <select id="year" name="year"><option value="">Choose...</option><option value="1">1st year</option><option value="2">2nd year</option><option value="3">3rd year</option><option value="4">4th year</option><option value="5">PG / other</option></select><div class="err"></div></div>
+        <div><label for="city">City</label>
+          <div class="ac-wrap"><input type="text" id="city" name="city" placeholder="Type to search cities" autocomplete="off" aria-autocomplete="list"><ul class="ac-list" id="cityList" style="display:none" role="listbox"></ul></div>
+          <div class="err"></div></div>
+        <div><label for="zip">Zip code (exactly 5 digits)</label><input type="text" id="zip" name="zip" maxlength="5" inputmode="numeric" placeholder="60001"><div class="err"></div></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>2. Your skills</legend>
+      <p class="muted" style="margin-top:0">Teams are balanced on these six ratings (0 = none, 5 = expert). Fill them three ways: take the quiz (fills the sliders for you), let your bio suggest them, or move the sliders yourself.</p>
+
+      <!-- Skill quiz, inline so nothing you typed is lost -->
+      <div class="card" style="background:#f7fbfa">
+        <p style="margin:0 0 8px"><b>Skill quiz</b> <span class="muted">12 questions, about 3 minutes. Verified skills count fully; unverified self-ratings count 85%.</span></p>
+        <button type="button" class="btn" id="quizBtn">Take the skill quiz</button> <span id="quizStatus" class="badge">Not taken yet</span>
+        <div id="qzPanel" style="display:none;margin-top:14px">
+          <div class="bar" style="margin-bottom:10px"><i id="qzProg" style="width:0%"></i></div>
+          <p class="muted" id="qzMeta" style="margin:0"></p>
+          <h3 id="qzText" style="margin:.3em 0 .6em"></h3>
+          <div id="qzOpts"></div>
+          <button type="button" class="btn" id="qzNext" disabled>Next</button> <button type="button" class="btn ghost" id="qzCancel">Cancel</button>
+        </div>
+      </div>
+
+      <div id="skills"></div>
+
+      <!-- Bio -> skill hints: regular expressions over an array of words -->
+      <label for="bio" style="margin-top:12px">What have you built or used? <small class="muted">(optional, max 500 characters)</small></label>
+      <textarea id="bio" name="bio" rows="3" maxlength="500" placeholder="e.g. Built a React site with Node and MongoDB, designed screens in Figma, used Arduino sensors..."></textarea>
+      <p><button type="button" class="btn ghost" id="hintBtn">Find skill hints in my bio</button></p>
+      <div id="hintOut"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>3. Team preferences</legend>
+      <div class="row">
+        <div><label for="track">Track</label>
+          <select id="track" name="track"><option value="">Choose...</option><option>Web</option><option>AI</option><option>IoT</option><option>Social</option></select><div class="err"></div></div>
+        <div><label for="friendEmail">Friend you want in your team <small class="muted">(optional)</small></label><input type="email" id="friendEmail" name="friendEmail" placeholder="their registered email"><div class="err"></div></div>
+        <div><label for="website">Portfolio / GitHub <small class="muted">(optional)</small></label><input type="url" id="website" name="website" placeholder="https://github.com/you"><div class="err"></div></div>
+        <div><label for="color">Pick your team colour</label><input type="color" id="color" name="color" value="#0f766e"></div>
+      </div>
+      <p><b>Tools you use</b> <span class="muted">(tick all that apply)</span></p>
+      <p class="inline" id="tools">
+        <label><input type="checkbox" name="tools" value="git"> Git</label>
+        <label><input type="checkbox" name="tools" value="figma"> Figma</label>
+        <label><input type="checkbox" name="tools" value="docker"> Docker</label>
+        <label><input type="checkbox" name="tools" value="python"> Python</label>
+        <label><input type="checkbox" name="tools" value="node"> Node.js</label>
+        <label><input type="checkbox" name="tools" value="arduino"> Arduino</label>
+      </p>
+      <p><b>Gender</b> <span class="muted">(used only to check team diversity)</span></p>
+      <p class="inline">
+        <label><input type="radio" name="gender" value="f"> Female</label>
+        <label><input type="radio" name="gender" value="m"> Male</label>
+        <label><input type="radio" name="gender" value="o"> Other</label>
+        <label><input type="radio" name="gender" value="n" checked> Prefer not to say</label>
+      </p>
+    </fieldset>
+
+    <fieldset>
+      <legend>4. Login password</legend>
+      <div class="row">
+        <div><label for="password">Password (6+ characters)</label><input type="password" id="password" name="password" autocomplete="new-password"><div class="err"></div></div>
+      </div>
+      <p class="muted" style="margin-top:0">You are logged in automatically after registering. Next time, use your email and this password in the <b>Log in</b> pop-up to see your team and why you were placed in it, swap teammates, and use your wallet.</p>
+      <p class="inline"><label><input type="checkbox" id="agree" name="agree"> I accept the <abbr title="Be kind, credit sources, finish what you start">hackathon rules</abbr>.</label></p>
+      <div class="err" id="agreeErr"></div>
+    </fieldset>
+
+    <!-- Profile completeness sits at the end, right before submitting -->
+    <p class="muted" style="margin:0 0 10px">Profile completeness: <meter id="complete" min="0" max="100" low="40" high="75" optimum="100" value="0"></meter> <output id="completeOut">0%</output></p>
+    <p>
+      <button type="submit" class="btn">Register</button>
+      <button type="reset" class="btn ghost" id="resetBtn">Reset</button>
+      <!-- input type=image: a graphical submit button -->
+      <input type="image" src="img/logo.svg" alt="Submit with logo button" width="40" height="40" style="vertical-align:middle;margin-left:10px" title="Also submits the form">
+    </p>
+    <div class="err" id="formErr" role="alert"></div>
+  </form>
+
+  <div class="card" id="done" style="display:none"></div>
+</main>
+<script src="vendor/jquery.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/popup.js"></script>
+<script src="js/skillquiz.js"></script>
+<script src="js/register.js"></script>
+</body>
+</html>

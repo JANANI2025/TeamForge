@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teams - TeamForge</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+  <h1>Teams</h1>
+  <p class="lead">Every team below was built to cover all six skills. Red bars mark a skill nobody in the team reaches 3/5 in.</p>
+
+  <section class="card" id="mine" style="display:none"></section>
+
+  <p><button class="btn ghost" id="orgBtn">Organizer access</button></p>
+
+  <!-- Organizer panel: hidden until the organizer logs in -->
+  <section class="card" id="adminBox" style="display:none">
+    <h2 style="margin-top:0">Organizer panel <button class="btn ghost" id="orgLock" style="float:right;padding:4px 12px">Lock panel</button></h2>
+    <div id="summary" class="muted" style="margin-bottom:10px"></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:end">
+      <div><label for="teamSize">Team size</label><input type="number" id="teamSize" min="2" max="8" value="5" style="width:90px"></div>
+      <button class="btn" id="buildBtn">Build teams</button>
+    </div>
+    <div id="buildResult" style="margin-top:14px"></div>
+  </section>
+
+  <div class="overlay" id="orgOverlay"></div>
+  <div class="popup" id="orgPopup" role="dialog" aria-modal="true" aria-labelledby="orgTitle">
+    <button class="close" id="orgClose" aria-label="Close">&times;</button>
+    <h3 id="orgTitle">Organizer login</h3>
+    <form id="orgForm" novalidate>
+      <label for="orgUser">Username</label><input type="text" id="orgUser" autocomplete="off">
+      <label for="orgPass" style="margin-top:10px">Password</label><input type="password" id="orgPass" autocomplete="off">
+      <div class="err" id="orgErr" role="alert"></div>
+      <button class="btn" type="submit" style="width:100%;margin-top:6px">Open organizer panel</button>
+    </form>
+  </div>
+
+  <section>
+    <h2>All teams <span class="badge" id="count"></span></h2>
+    <div class="grid two" id="teamGrid"><p class="muted">Loading...</p></div>
+  </section>
+</main>
+<script src="vendor/jquery.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/popup.js"></script>
+<script src="js/teams.js"></script>
+</body>
+</html>

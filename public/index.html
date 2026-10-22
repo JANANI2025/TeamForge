@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TeamForge - Balanced Hackathon Teams</title>
+<!-- 1) EXTERNAL CSS -->
+<link rel="stylesheet" href="css/style.css">
+<!-- 2) INTERNAL CSS (only affects this page) -->
+<style>
+  .hero { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items: center; }
+  .hero canvas { width: 100%; max-width: 420px; border-radius: 14px; justify-self: center; }
+  .rect6 { width: 100%; min-height: 150px; border: 6px solid var(--brand); border-radius: 0; padding: 12px; background: #fff; } /* rectangle with a 6px border */
+  .slider { position: relative; overflow: hidden; border-radius: 12px; background: #111; }
+  .slider img { width: 100%; display: block; transition: opacity .5s; }
+  .slider .dots { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; }
+  .slider .dots span { display: inline-block; width: 9px; height: 9px; margin: 0 3px; border-radius: 50%; background: rgba(255,255,255,.5); cursor: pointer; }
+  .slider .dots span.on { background: #fff; }
+  table.cal td, table.cal th { text-align: center; width: 14.2%; padding: 6px 2px; }
+  table.cal td.prev { background: #e5e7eb; color: #9ca3af; }          /* days of the previous month */
+  table.cal td.event { background: var(--accent); color: #2b1d00; font-weight: 700; }
+  table.cal td.sun { color: var(--danger); }
+  .poll-opt { display: grid; grid-template-columns: 1fr 55px; gap: 8px; align-items: center; margin: 6px 0; }
+  .poll-opt .bar > i { background: var(--accent); }
+  .word { font: 700 1.8rem Consolas, monospace; letter-spacing: .35em; }
+  .fact-list li { margin-bottom: 6px; }
+  .zoomable { transition: width .2s; }
+  @media (max-width: 760px) { .hero { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body data-autopopup="6000">
+<main>
+  <!-- HERO: heading + canvas brick wall behind the logo -->
+  <section class="hero">
+    <div>
+      <!-- 3) INLINE CSS: style attribute on the element -->
+      <span class="badge" style="background:#fef3c7;color:#92400e;font-weight:600">Hackathon 14-15 Nov 2026</span>
+      <h1 id="headline">Teams that can actually <span style="color:#0f766e">ship</span>.</h1>
+      <p class="lead" id="lead">Most hackathons let people pick teammates they already know, so a team ends up with four frontend developers and nobody to build the backend. TeamForge reads your registration, balances skills across <b>all</b> teams, and tells you <i>why</i> you were placed where you were.</p>
+      <p><a class="btn" href="register.html" data-i18n="register"></a> <a class="btn ghost" href="teams.html" data-i18n="teams"></a></p>
+      <p class="muted">Starts in <b id="countdown" style="font-family:Consolas,monospace;color:#0f766e">--</b></p>
+    </div>
+    <canvas id="brick" width="420" height="300" aria-label="Brick wall with the TeamForge logo"></canvas>
+  </section>
+
+  <div class="grid two">
+    <!-- Slideshow (JS + DOM) -->
+    <section class="card">
+      <h2 style="margin-top:0">How it works</h2>
+      <div class="slider" id="slider" aria-live="polite">
+        <img id="slideImg" src="img/slide1.svg" alt="Slide 1">
+        <div class="dots" id="dots"></div>
+      </div>
+      <p style="margin:10px 0 0"><button class="btn ghost" id="prev">&larr; Prev</button> <button class="btn ghost" id="next">Next &rarr;</button> <button class="btn ghost" id="pause">Pause</button></p>
+    </section>
+
+    <!-- Zoom explorer: zooming in reveals detail, zooming out shows the big picture -->
+    <section class="card">
+      <h2 style="margin-top:0">Hackathon explorer</h2>
+      <p class="muted" style="margin-top:-6px">Zoom <b>in</b> for details, zoom <b>out</b> for the big picture.</p>
+      <div class="zoombar">
+        <button class="btn ghost" id="zoomOut" aria-label="Zoom out">&minus; Zoom out</button>
+        <button class="btn ghost" id="zoomIn" aria-label="Zoom in">+ Zoom in</button>
+        <span class="badge" id="zoomLabel"></span>
+      </div>
+      <div style="margin:12px 0"><img id="teamImg" class="zoomable" src="img/team.svg" alt="Three teammates" width="140"></div>
+      <div class="rect6" id="rect" aria-live="polite"></div>
+    </section>
+  </div>
+
+  <div class="grid two">
+    <!-- Calendar table: previous-month days in a different colour -->
+    <section class="card">
+      <h2 style="margin-top:0">Event calendar - <span id="calTitle"></span></h2>
+      <table class="cal" id="cal"></table>
+      <p class="muted" style="margin-bottom:0"><span style="display:inline-block;width:12px;height:12px;background:#e5e7eb;border:1px solid #cbd5e1"></span> previous month &nbsp; <span style="display:inline-block;width:12px;height:12px;background:var(--accent)"></span> hackathon days</p>
+    </section>
+
+    <!-- Survey poll -->
+    <section class="card">
+      <h2 style="margin-top:0">Quick poll</h2>
+      <p id="pollQ"><b>Which skill do you most want to learn from your teammates?</b> <span class="muted">(you can change your vote)</span></p>
+      <div id="pollBox"></div>
+      <p class="muted" id="pollNote" style="margin-bottom:0"></p>
+    </section>
+  </div>
+
+  <div class="grid two">
+    <!-- Two branches with localized content -->
+    <section class="card" id="branches">
+      <h2 style="margin-top:0">Choose your campus</h2>
+      <p><button class="btn" data-branch="chn">Chennai</button> <button class="btn" data-branch="cbe">Coimbatore</button></p>
+      <div id="branchInfo" class="muted"></div>
+    </section>
+
+    <!-- OOP word guessing game, hidden until asked for -->
+    <section class="card">
+      <h2 style="margin-top:0">Taking a break?</h2>
+      <button class="btn ghost" id="showGame">Just play a word game for fun</button>
+      <div id="gameBox" style="display:none;margin-top:14px">
+        <p class="muted">Guess the hackathon word. Six wrong guesses allowed.</p>
+        <div class="word" id="wordView"></div>
+        <p id="gameMsg"></p>
+        <p id="letters"></p>
+        <button class="btn ghost" id="newGame">New word</button> <button class="btn ghost" id="hideGame">Hide game</button>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="vendor/jquery.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/popup.js"></script>
+<script src="js/home.js"></script>
+</body>
+</html>

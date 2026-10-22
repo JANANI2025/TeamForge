@@ -1,0 +1,162 @@
+[
+ {
+  "city": "Chennai",
+  "state": "Tamil Nadu"
+ },
+ {
+  "city": "Coimbatore",
+  "state": "Tamil Nadu"
+ },
+ {
+  "city": "Madurai",
+  "state": "Tamil Nadu"
+ },
+ {
+  "city": "Tiruchirappalli",
+  "state": "Tamil Nadu"
+ },
+ {
+  "city": "Salem",
+  "state": "Tamil Nadu"
+ },
+ {
+  "city": "Vellore",
+  "state": "Tamil Nadu"
+ },
+ {
+  "city": "Tirunelveli",
+  "state": "Tamil Nadu"
+ },
+ {
+  "city": "Erode",
+  "state": "Tamil Nadu"
+ },
+ {
+  "city": "Thanjavur",
+  "state": "Tamil Nadu"
+ },
+ {
+  "city": "Puducherry",
+  "state": "Puducherry"
+ },
+ {
+  "city": "Bengaluru",
+  "state": "Karnataka"
+ },
+ {
+  "city": "Mysuru",
+  "state": "Karnataka"
+ },
+ {
+  "city": "Mangaluru",
+  "state": "Karnataka"
+ },
+ {
+  "city": "Hyderabad",
+  "state": "Telangana"
+ },
+ {
+  "city": "Warangal",
+  "state": "Telangana"
+ },
+ {
+  "city": "Visakhapatnam",
+  "state": "Andhra Pradesh"
+ },
+ {
+  "city": "Vijayawada",
+  "state": "Andhra Pradesh"
+ },
+ {
+  "city": "Tirupati",
+  "state": "Andhra Pradesh"
+ },
+ {
+  "city": "Kochi",
+  "state": "Kerala"
+ },
+ {
+  "city": "Thiruvananthapuram",
+  "state": "Kerala"
+ },
+ {
+  "city": "Kozhikode",
+  "state": "Kerala"
+ },
+ {
+  "city": "Mumbai",
+  "state": "Maharashtra"
+ },
+ {
+  "city": "Pune",
+  "state": "Maharashtra"
+ },
+ {
+  "city": "Nagpur",
+  "state": "Maharashtra"
+ },
+ {
+  "city": "Delhi",
+  "state": "Delhi"
+ },
+ {
+  "city": "Gurugram",
+  "state": "Haryana"
+ },
+ {
+  "city": "Noida",
+  "state": "Uttar Pradesh"
+ },
+ {
+  "city": "Lucknow",
+  "state": "Uttar Pradesh"
+ },
+ {
+  "city": "Jaipur",
+  "state": "Rajasthan"
+ },
+ {
+  "city": "Ahmedabad",
+  "state": "Gujarat"
+ },
+ {
+  "city": "Surat",
+  "state": "Gujarat"
+ },
+ {
+  "city": "Bhopal",
+  "state": "Madhya Pradesh"
+ },
+ {
+  "city": "Indore",
+  "state": "Madhya Pradesh"
+ },
+ {
+  "city": "Kolkata",
+  "state": "West Bengal"
+ },
+ {
+  "city": "Bhubaneswar",
+  "state": "Odisha"
+ },
+ {
+  "city": "Patna",
+  "state": "Bihar"
+ },
+ {
+  "city": "Chandigarh",
+  "state": "Chandigarh"
+ },
+ {
+  "city": "Guwahati",
+  "state": "Assam"
+ },
+ {
+  "city": "Goa",
+  "state": "Goa"
+ },
+ {
+  "city": "Dehradun",
+  "state": "Uttarakhand"
+ }
+]
